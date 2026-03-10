@@ -24,14 +24,21 @@ Historical Match Data
 
 Backtested on 200 IPL matches:
 
-| System | Mean Score | Mean Regret | Improvement |
-|--------|-----------|-------------|-------------|
-| Baseline (expected value only) | 447.9 | 329.7 | — |
-| + Ceiling-weighted optimization | 473.0 | 304.6 | -25.1 pts |
-| + Role-specific weights + credits | 552.6 | 286.0 | **-43.7 pts (-13.3%)** |
-| + Reinforcement learning | 564.7 | 289.0 | -4.2 pts additional |
+| Metric | Value |
+|--------|-------|
+| Mean Selected Score | 564.7 |
+| Mean Oracle Score | 853.7 |
+| Mean Regret | 289.0 |
+| Oracle Capture Rate | ~66% |
+| Player Overlap with Oracle | 54.4% |
+| Captain Accuracy | 12.0% |
+| VC Accuracy | 10.0% |
 
-Captain accuracy improved from 6% to 12%. The system captures ~65% of oracle (perfect hindsight) score.
+| Regret Breakdown | Points | % of Total |
+|------------------|--------|------------|
+| Team Selection (wrong players) | 195.3 | 68% |
+| Captain Selection | 70.5 | 25% |
+| VC Selection | 20.2 | 7% |
 
 ## Quick Start
 
