@@ -1,0 +1,41 @@
+{
+  "quantiles": [
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    0.9
+  ],
+  "features": [
+    "rolling_batting_position_avg_5_all",
+    "rolling_balls_bowled_avg_5_all",
+    "venue_points_avg_all",
+    "rolling_points_avg_10_all",
+    "rolling_death_balls_share_avg_5_all",
+    "prior_matches_all",
+    "rolling_bowling_balls_share_avg_5_all",
+    "rolling_balls_faced_avg_5_all",
+    "rolling_economy_rate_5_all",
+    "prior_matches_recent_t20",
+    "rolling_points_avg_5_ipl",
+    "boundary_rate_5_all",
+    "rolling_points_p75_10_all",
+    "rolling_points_avg_5_recent_t20",
+    "rolling_points_p90_10_all",
+    "bowling_style",
+    "player_role",
+    "rolling_strike_rate_5_all",
+    "ema_bowling_points_5_all",
+    "prior_matches_ipl",
+    "won_toss",
+    "opponent_points_avg_bat",
+    "opponent_points_avg_bowl",
+    "opponent_points_avg_ar",
+    "opponent_points_avg_wk",
+    "opponent_role_relative"
+  ],
+  "categorical_features": [
+    "bowling_style",
+    "player_role"
+  ]
+}

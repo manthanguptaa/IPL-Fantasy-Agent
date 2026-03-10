@@ -128,6 +128,12 @@ FEATURE_FIELD_ORDER = [
     # NEW: Duck and boundary tendency
     "duck_rate_10_all",
     "boundary_rate_5_all",
+    # NEW: Role-stratified opponent features
+    "opponent_points_avg_bat",
+    "opponent_points_avg_bowl",
+    "opponent_points_avg_ar",
+    "opponent_points_avg_wk",
+    "opponent_role_relative",
 ]
 
 
@@ -271,6 +277,8 @@ def build_feature_rows(base_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     history_recent_t20: dict[str, deque[dict[str, float]]] = defaultdict(deque)
     history_by_venue: dict[tuple[str, str], deque[float]] = defaultdict(deque)
     history_by_opponent: dict[tuple[str, str], deque[float]] = defaultdict(deque)
+    # Role-stratified opponent history: (role, opponent) -> deque of points
+    history_role_opponent: dict[tuple[str, str], deque[float]] = defaultdict(deque)
     feature_rows: list[dict[str, Any]] = []
 
     for row in sorted_rows:
@@ -324,6 +332,16 @@ def build_feature_rows(base_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
         feature_row["venue_points_avg_all"] = _mean(list(venue_hist))
         feature_row["prior_matches_vs_opponent"] = len(opponent_hist)
         feature_row["opponent_points_avg_all"] = _mean(list(opponent_hist))
+        # Role-stratified opponent averages
+        player_role = row.get("player_role", "")
+        for role_code in ("BAT", "BOWL", "AR", "WK"):
+            role_opp_hist = history_role_opponent[(role_code, opponent)]
+            feature_row[f"opponent_points_avg_{role_code.lower()}"] = _mean(list(role_opp_hist))
+        # Relative: this player's vs-opponent avg minus their role's vs-opponent avg
+        role_opp_avg = feature_row.get(f"opponent_points_avg_{player_role.lower()}", 0.0)
+        feature_row["opponent_role_relative"] = (
+            feature_row["opponent_points_avg_all"] - role_opp_avg
+        )
         feature_row["batting_position_known_rate_5_all"] = _recent_rate(all_hist, "batted", 5)
         feature_row["rolling_batting_position_avg_5_all"] = _recent_average_present(
             all_hist, "batting_position", "batted", 5
@@ -414,6 +432,8 @@ def build_feature_rows(base_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
         all_hist.append(current_summary)
         venue_hist.append(current_summary["points"])
         opponent_hist.append(current_summary["points"])
+        if player_role in ("BAT", "BOWL", "AR", "WK"):
+            history_role_opponent[(player_role, opponent)].append(current_summary["points"])
         if _is_ipl(row):
             ipl_hist.append(current_summary)
         if _is_recent_t20_source(row):

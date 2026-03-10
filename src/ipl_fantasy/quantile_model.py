@@ -31,7 +31,6 @@ OPTIMAL_FEATURES = [
     "rolling_death_balls_share_avg_5_all",
     "prior_matches_all",
     "rolling_bowling_balls_share_avg_5_all",
-    "opponent_points_avg_all",
     "rolling_balls_faced_avg_5_all",
     "rolling_economy_rate_5_all",
     "prior_matches_recent_t20",
@@ -45,7 +44,13 @@ OPTIMAL_FEATURES = [
     "rolling_strike_rate_5_all",
     "ema_bowling_points_5_all",
     "prior_matches_ipl",
-    "won_toss",  # Added: toss advantage feature (-9.6 pts regret improvement)
+    "won_toss",
+    # Role-stratified opponent features (replaces generic opponent_points_avg_all)
+    "opponent_points_avg_bat",
+    "opponent_points_avg_bowl",
+    "opponent_points_avg_ar",
+    "opponent_points_avg_wk",
+    "opponent_role_relative",
 ]
 
 # Default quantiles to predict

@@ -235,6 +235,77 @@ class TestHelperFunctions:
         assert high_credits > low_credits
 
 
+class TestOverseasConstraint:
+    """Tests for overseas player limit."""
+
+    def test_max_4_overseas_players(self):
+        """Selected team should have at most 4 overseas players."""
+        players = []
+        # Create pool with many high-scoring foreign players to tempt the optimizer
+        for i in range(6):
+            players.append(Player(name=f"Foreign_BAT_{i}", team="Team_A", role="BAT",
+                                  predicted_points=50.0, credits=9.0, is_foreign=True))
+        for i in range(6):
+            players.append(Player(name=f"Foreign_BOWL_{i}", team="Team_B", role="BOWL",
+                                  predicted_points=45.0, credits=8.5, is_foreign=True))
+        # Domestic players with lower points
+        for i in range(4):
+            players.append(Player(name=f"Domestic_WK_{i}", team="Team_A", role="WK",
+                                  predicted_points=30.0, credits=8.0, is_foreign=False))
+        for i in range(6):
+            players.append(Player(name=f"Domestic_BAT_{i}", team="Team_B", role="BAT",
+                                  predicted_points=25.0, credits=7.5, is_foreign=False))
+        for i in range(4):
+            players.append(Player(name=f"Domestic_AR_{i}", team="Team_A", role="AR",
+                                  predicted_points=28.0, credits=8.0, is_foreign=False))
+        for i in range(6):
+            players.append(Player(name=f"Domestic_BOWL_{i}", team="Team_B", role="BOWL",
+                                  predicted_points=22.0, credits=7.0, is_foreign=False))
+
+        optimizer = Dream11Optimizer()
+        result = optimizer.optimize(players)
+
+        foreign_count = sum(1 for p in result.selected_players if p.is_foreign)
+        assert foreign_count <= 4, f"Team has {foreign_count} overseas players, max is 4"
+        assert result.status == "Optimal"
+
+    def test_overseas_constraint_is_binding(self):
+        """When foreign players are clearly better, exactly 4 should be selected."""
+        players = []
+        # 5 very high-scoring foreign batters
+        for i in range(5):
+            players.append(Player(name=f"Foreign_BAT_{i}", team="Team_A", role="BAT",
+                                  predicted_points=60.0, credits=9.0, is_foreign=True))
+        # Domestic fillers
+        for i in range(4):
+            players.append(Player(name=f"Domestic_WK_{i}", team="Team_B", role="WK",
+                                  predicted_points=20.0, credits=7.0, is_foreign=False))
+        for i in range(4):
+            players.append(Player(name=f"Domestic_BAT_{i}", team="Team_B", role="BAT",
+                                  predicted_points=20.0, credits=7.0, is_foreign=False))
+        for i in range(4):
+            players.append(Player(name=f"Domestic_AR_{i}", team="Team_A", role="AR",
+                                  predicted_points=20.0, credits=7.0, is_foreign=False))
+        for i in range(6):
+            players.append(Player(name=f"Domestic_BOWL_{i}", team="Team_B", role="BOWL",
+                                  predicted_points=20.0, credits=7.0, is_foreign=False))
+
+        optimizer = Dream11Optimizer()
+        result = optimizer.optimize(players)
+
+        foreign_count = sum(1 for p in result.selected_players if p.is_foreign)
+        assert foreign_count == 4, f"Expected exactly 4 overseas players, got {foreign_count}"
+
+    def test_no_foreign_players_works(self):
+        """Optimizer should work fine when no players are marked foreign."""
+        players = create_sample_players()  # None have is_foreign=True
+        optimizer = Dream11Optimizer()
+        result = optimizer.optimize(players)
+
+        assert result.status == "Optimal"
+        assert len(result.selected_players) == 11
+
+
 class TestCustomConstraints:
     """Tests for custom constraints."""
 

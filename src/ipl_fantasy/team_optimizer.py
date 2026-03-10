@@ -25,6 +25,7 @@ class Player:
     ceiling: float | None = None  # Upper percentile prediction
     floor: float | None = None    # Lower percentile prediction
     variance: float | None = None
+    is_foreign: bool = False      # True for overseas players
 
     def __hash__(self):
         return hash((self.name, self.team))
@@ -49,6 +50,9 @@ class Dream11Constraints:
 
     # Team constraint
     max_per_team: int = 7
+
+    # Overseas constraint
+    max_overseas: int = 4
 
 
 @dataclass
@@ -191,6 +195,11 @@ class Dream11Optimizer:
         for team in teams:
             team_players = [p for p in players if p.team == team]
             prob += pulp.lpSum(player_vars[p] for p in team_players) <= self.constraints.max_per_team
+
+        # Constraint 5: Max overseas players
+        foreign_players = [p for p in players if p.is_foreign]
+        if foreign_players:
+            prob += pulp.lpSum(player_vars[p] for p in foreign_players) <= self.constraints.max_overseas
 
         # Solve
         prob.solve(pulp.PULP_CBC_CMD(msg=0))
@@ -347,6 +356,7 @@ class Dream11Optimizer:
                     ceiling=p.ceiling,
                     floor=p.floor,
                     variance=p.variance,
+                    is_foreign=p.is_foreign,
                 )
                 adjusted_players.append(adjusted)
 
@@ -406,6 +416,7 @@ def create_player_pool_from_predictions(
             ceiling=pred.get("ceiling"),
             floor=pred.get("floor"),
             variance=pred.get("variance"),
+            is_foreign=bool(pred.get("is_foreign", False)),
         )
         players.append(player)
 

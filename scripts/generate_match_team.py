@@ -119,6 +119,7 @@ def apply_venue_adjustments(
             ceiling=p.ceiling * factor if p.ceiling else p.ceiling,
             floor=p.floor * factor if p.floor else p.floor,
             variance=p.variance,
+            is_foreign=p.is_foreign,
         ))
 
     return adjusted
@@ -456,30 +457,7 @@ def build_match_dataframe(
     for _, row in historical.iterrows():
         hist_lookup[row["player_name"]] = row
 
-    feature_cols = [
-        "rolling_batting_position_avg_5_all",
-        "rolling_balls_bowled_avg_5_all",
-        "venue_points_avg_all",
-        "rolling_points_avg_10_all",
-        "rolling_death_balls_share_avg_5_all",
-        "prior_matches_all",
-        "rolling_bowling_balls_share_avg_5_all",
-        "opponent_points_avg_all",
-        "rolling_balls_faced_avg_5_all",
-        "rolling_economy_rate_5_all",
-        "prior_matches_recent_t20",
-        "rolling_points_avg_5_ipl",
-        "boundary_rate_5_all",
-        "rolling_points_p75_10_all",
-        "rolling_points_avg_5_recent_t20",
-        "rolling_points_p90_10_all",
-        "bowling_style",
-        "player_role",
-        "rolling_strike_rate_5_all",
-        "ema_bowling_points_5_all",
-        "prior_matches_ipl",
-        "won_toss",
-    ]
+    feature_cols = list(OPTIMAL_FEATURES)
 
     rows = []
     matched = 0
@@ -489,6 +467,7 @@ def build_match_dataframe(
         squad_name = player["player_name"]
         role = player["role"]
         team = player["team"]
+        is_foreign = bool(player.get("is_foreign", 0))
         opponent = team2 if team == team1 else team1
 
         hist_name = SQUAD_TO_HISTORICAL.get(squad_name, squad_name)
@@ -500,6 +479,7 @@ def build_match_dataframe(
             "opponent": opponent,
             "player_role": role,
             "venue": venue,
+            "is_foreign": is_foreign,
         }
 
         if hist_row is not None:
@@ -512,10 +492,13 @@ def build_match_dataframe(
                 elif col == "bowling_style":
                     val = hist_row.get(col, "")
                     row[col] = val if pd.notna(val) else ""
-                elif col in ("venue_points_avg_all", "opponent_points_avg_all"):
+                elif col in ("venue_points_avg_all",) or col.startswith("opponent_points_avg_"):
                     val = hist_row.get(col, None)
                     fallback = hist_row.get("rolling_points_avg_10_all", 30.0)
                     row[col] = val if pd.notna(val) else fallback
+                elif col == "opponent_role_relative":
+                    val = hist_row.get(col, None)
+                    row[col] = val if pd.notna(val) else 0.0
                 else:
                     val = hist_row.get(col, None)
                     default = ROLE_DEFAULTS.get(role, ROLE_DEFAULTS["BAT"]).get(col, 0)
@@ -534,8 +517,10 @@ def build_match_dataframe(
                     row[col] = 1 if won_toss == team else 0
                 elif col == "bowling_style":
                     row[col] = "right-arm medium" if role == "BOWL" else ""
-                elif col in ("venue_points_avg_all", "opponent_points_avg_all"):
+                elif col in ("venue_points_avg_all",) or col.startswith("opponent_points_avg_"):
                     row[col] = defaults.get("rolling_points_avg_10_all", 25.0)
+                elif col == "opponent_role_relative":
+                    row[col] = 0.0
                 else:
                     row[col] = defaults.get(col, 0)
             row["rolling_points_avg_5_all"] = defaults.get("rolling_points_avg_10_all", 25.0)

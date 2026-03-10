@@ -77,11 +77,14 @@ def create_enhanced_predict_fn(
     def predict_fn(match_df: pd.DataFrame) -> list[Player]:
         predictions = ensemble.predict(match_df)
 
-        # Build credit lookup from match data if using improved credits
+        # Build credit and foreign status lookups from match data
         credit_lookup = {}
-        if use_improved_credits:
-            for _, row in match_df.iterrows():
-                player_name = row.get("player_name", "")
+        foreign_lookup = {}
+        for _, row in match_df.iterrows():
+            player_name = row.get("player_name", "")
+            foreign_lookup[player_name] = bool(row.get("is_foreign", False))
+
+            if use_improved_credits:
                 player_role = row.get("player_role", "BAT")
                 avg_all = row.get("rolling_points_avg_10_all",
                                 row.get("rolling_points_avg_5_all", 30.0))
@@ -126,6 +129,7 @@ def create_enhanced_predict_fn(
                 ceiling=captain_value,  # Used for captain selection
                 floor=pred.q10,
                 variance=pred.variance,
+                is_foreign=foreign_lookup.get(pred.player_name, False),
             )
             players.append(player)
 

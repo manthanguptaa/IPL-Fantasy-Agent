@@ -134,6 +134,11 @@ class ImprovedDream11Optimizer(Dream11Optimizer):
             team_players = [p for p in players if p.team == team]
             prob += pulp.lpSum(player_vars[p] for p in team_players) <= self.constraints.max_per_team
 
+        # Max overseas players
+        foreign_players = [p for p in players if p.is_foreign]
+        if foreign_players:
+            prob += pulp.lpSum(player_vars[p] for p in foreign_players) <= self.constraints.max_overseas
+
     def _build_result(
         self,
         players: list[Player],

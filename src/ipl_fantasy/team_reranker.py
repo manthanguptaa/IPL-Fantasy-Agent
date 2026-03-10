@@ -256,6 +256,7 @@ def generate_candidates(
                     ceiling=p.ceiling,
                     floor=p.floor,
                     variance=p.variance,
+                    is_foreign=p.is_foreign,
                 ))
             try:
                 result = optimizer.optimize_ceiling_weighted(adjusted)
