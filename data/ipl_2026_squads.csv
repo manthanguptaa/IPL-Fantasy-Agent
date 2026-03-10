@@ -1,0 +1,250 @@
+player_name,team,team_short,role,is_foreign
+Ruturaj Gaikwad,Chennai Super Kings,CSK,BAT,0
+MS Dhoni,Chennai Super Kings,CSK,WK,0
+Sanju Samson,Chennai Super Kings,CSK,WK,0
+Dewald Brevis,Chennai Super Kings,CSK,BAT,1
+Ayush Mhatre,Chennai Super Kings,CSK,BAT,0
+Kartik Sharma,Chennai Super Kings,CSK,WK,0
+Sarfaraz Khan,Chennai Super Kings,CSK,BAT,0
+Urvil Patel,Chennai Super Kings,CSK,WK,0
+Anshul Kamboj,Chennai Super Kings,CSK,AR,0
+Jamie Overton,Chennai Super Kings,CSK,AR,1
+Ramakrishna Ghosh,Chennai Super Kings,CSK,AR,0
+Prashant Veer,Chennai Super Kings,CSK,AR,0
+Matthew Short,Chennai Super Kings,CSK,AR,1
+Aman Khan,Chennai Super Kings,CSK,AR,0
+Zak Foulkes,Chennai Super Kings,CSK,AR,1
+Shivam Dube,Chennai Super Kings,CSK,AR,0
+Khaleel Ahmed,Chennai Super Kings,CSK,BOWL,0
+Noor Ahmad,Chennai Super Kings,CSK,BOWL,1
+Mukesh Choudhary,Chennai Super Kings,CSK,BOWL,0
+Nathan Ellis,Chennai Super Kings,CSK,BOWL,1
+Shreyas Gopal,Chennai Super Kings,CSK,BOWL,0
+Gurjapneet Singh,Chennai Super Kings,CSK,BOWL,0
+Akeal Hosein,Chennai Super Kings,CSK,BOWL,1
+Matt Henry,Chennai Super Kings,CSK,BOWL,1
+Rahul Chahar,Chennai Super Kings,CSK,BOWL,0
+Rohit Sharma,Mumbai Indians,MI,BAT,0
+Suryakumar Yadav,Mumbai Indians,MI,BAT,0
+Robin Minz,Mumbai Indians,MI,WK,0
+Sherfane Rutherford,Mumbai Indians,MI,BAT,1
+Ryan Rickelton,Mumbai Indians,MI,WK,1
+Quinton de Kock,Mumbai Indians,MI,WK,1
+Danish Malewar,Mumbai Indians,MI,BAT,0
+Tilak Varma,Mumbai Indians,MI,BAT,0
+Hardik Pandya,Mumbai Indians,MI,AR,0
+Naman Dhir,Mumbai Indians,MI,AR,0
+Mitchell Santner,Mumbai Indians,MI,AR,1
+Raj Angad Bawa,Mumbai Indians,MI,AR,0
+Atharva Ankolekar,Mumbai Indians,MI,AR,0
+Mayank Rawat,Mumbai Indians,MI,AR,0
+Corbin Bosch,Mumbai Indians,MI,AR,1
+Will Jacks,Mumbai Indians,MI,AR,1
+Shardul Thakur,Mumbai Indians,MI,AR,0
+Trent Boult,Mumbai Indians,MI,BOWL,1
+Mayank Markande,Mumbai Indians,MI,BOWL,0
+Deepak Chahar,Mumbai Indians,MI,BOWL,0
+Ashwani Kumar,Mumbai Indians,MI,BOWL,0
+Raghu Sharma,Mumbai Indians,MI,BOWL,0
+Mohammad Izhar,Mumbai Indians,MI,BOWL,0
+Allah Ghazanfar,Mumbai Indians,MI,BOWL,1
+Jasprit Bumrah,Mumbai Indians,MI,BOWL,0
+Rajat Patidar,Royal Challengers Bengaluru,RCB,BAT,0
+Devdutt Padikkal,Royal Challengers Bengaluru,RCB,BAT,0
+Virat Kohli,Royal Challengers Bengaluru,RCB,BAT,0
+Phil Salt,Royal Challengers Bengaluru,RCB,WK,1
+Jitesh Sharma,Royal Challengers Bengaluru,RCB,WK,0
+Jordan Cox,Royal Challengers Bengaluru,RCB,WK,1
+Krunal Pandya,Royal Challengers Bengaluru,RCB,AR,0
+Swapnil Singh,Royal Challengers Bengaluru,RCB,AR,0
+Tim David,Royal Challengers Bengaluru,RCB,AR,1
+Romario Shepherd,Royal Challengers Bengaluru,RCB,AR,1
+Jacob Bethell,Royal Challengers Bengaluru,RCB,AR,1
+Venkatesh Iyer,Royal Challengers Bengaluru,RCB,AR,0
+Satvik Deswal,Royal Challengers Bengaluru,RCB,AR,0
+Mangesh Yadav,Royal Challengers Bengaluru,RCB,AR,0
+Vicky Ostwal,Royal Challengers Bengaluru,RCB,AR,0
+Vihaan Malhotra,Royal Challengers Bengaluru,RCB,AR,0
+Kanishk Chouhan,Royal Challengers Bengaluru,RCB,AR,0
+Josh Hazlewood,Royal Challengers Bengaluru,RCB,BOWL,1
+Rasikh Dar,Royal Challengers Bengaluru,RCB,BOWL,0
+Suyash Sharma,Royal Challengers Bengaluru,RCB,BOWL,0
+Bhuvneshwar Kumar,Royal Challengers Bengaluru,RCB,BOWL,0
+Nuwan Thushara,Royal Challengers Bengaluru,RCB,BOWL,1
+Abhinandan Singh,Royal Challengers Bengaluru,RCB,BOWL,0
+Jacob Duffy,Royal Challengers Bengaluru,RCB,BOWL,1
+Yash Dayal,Royal Challengers Bengaluru,RCB,BOWL,0
+KL Rahul,Delhi Capitals,DC,WK,0
+Karun Nair,Delhi Capitals,DC,BAT,0
+David Miller,Delhi Capitals,DC,BAT,1
+Ben Duckett,Delhi Capitals,DC,WK,1
+Pathum Nissanka,Delhi Capitals,DC,BAT,1
+Sahil Parakh,Delhi Capitals,DC,BAT,0
+Prithvi Shaw,Delhi Capitals,DC,BAT,0
+Abishek Porel,Delhi Capitals,DC,WK,0
+Tristan Stubbs,Delhi Capitals,DC,WK,1
+Axar Patel,Delhi Capitals,DC,AR,0
+Sameer Rizvi,Delhi Capitals,DC,AR,0
+Ashutosh Sharma,Delhi Capitals,DC,AR,0
+Vipraj Nigam,Delhi Capitals,DC,AR,0
+Ajay Mandal,Delhi Capitals,DC,AR,0
+Tripurana Vijay,Delhi Capitals,DC,AR,0
+Madhav Tiwari,Delhi Capitals,DC,AR,0
+Auqib Dar,Delhi Capitals,DC,AR,0
+Nitish Rana,Delhi Capitals,DC,AR,0
+Mitchell Starc,Delhi Capitals,DC,BOWL,1
+T Natarajan,Delhi Capitals,DC,BOWL,0
+Mukesh Kumar,Delhi Capitals,DC,BOWL,0
+Dushmantha Chameera,Delhi Capitals,DC,BOWL,1
+Lungisani Ngidi,Delhi Capitals,DC,BOWL,1
+Kyle Jamieson,Delhi Capitals,DC,BOWL,1
+Kuldeep Yadav,Delhi Capitals,DC,BOWL,0
+Shubman Gill,Gujarat Titans,GT,BAT,0
+Jos Buttler,Gujarat Titans,GT,WK,1
+Kumar Kushagra,Gujarat Titans,GT,WK,0
+Anuj Rawat,Gujarat Titans,GT,WK,0
+Tom Banton,Gujarat Titans,GT,WK,1
+Glenn Phillips,Gujarat Titans,GT,BAT,1
+Nishant Sindhu,Gujarat Titans,GT,AR,0
+Washington Sundar,Gujarat Titans,GT,AR,0
+Mohd Arshad Khan,Gujarat Titans,GT,AR,0
+Sai Kishore,Gujarat Titans,GT,AR,0
+Jayant Yadav,Gujarat Titans,GT,AR,0
+Jason Holder,Gujarat Titans,GT,AR,1
+Sai Sudharsan,Gujarat Titans,GT,AR,0
+Shahrukh Khan,Gujarat Titans,GT,AR,0
+Kagiso Rabada,Gujarat Titans,GT,BOWL,1
+Mohammed Siraj,Gujarat Titans,GT,BOWL,0
+Prasidh Krishna,Gujarat Titans,GT,BOWL,0
+Manav Suthar,Gujarat Titans,GT,BOWL,0
+Gurnoor Singh Brar,Gujarat Titans,GT,BOWL,0
+Ishant Sharma,Gujarat Titans,GT,BOWL,0
+Ashok Sharma,Gujarat Titans,GT,BOWL,0
+Prithvi Raj Yarra,Gujarat Titans,GT,BOWL,0
+Luke Wood,Gujarat Titans,GT,BOWL,1
+Rahul Tewatia,Gujarat Titans,GT,BOWL,0
+Rashid Khan,Gujarat Titans,GT,BOWL,1
+Ajinkya Rahane,Kolkata Knight Riders,KKR,BAT,0
+Rinku Singh,Kolkata Knight Riders,KKR,BAT,0
+Angkrish Raghuvanshi,Kolkata Knight Riders,KKR,BAT,0
+Manish Pandey,Kolkata Knight Riders,KKR,BAT,0
+Cameron Green,Kolkata Knight Riders,KKR,BAT,1
+Finn Allen,Kolkata Knight Riders,KKR,WK,1
+Tejasvi Singh,Kolkata Knight Riders,KKR,WK,0
+Rahul Tripathi,Kolkata Knight Riders,KKR,BAT,0
+Tim Seifert,Kolkata Knight Riders,KKR,WK,1
+Rovman Powell,Kolkata Knight Riders,KKR,BAT,1
+Anukul Roy,Kolkata Knight Riders,KKR,AR,0
+Sarthak Ranjan,Kolkata Knight Riders,KKR,AR,0
+Daksh Kamra,Kolkata Knight Riders,KKR,AR,0
+Rachin Ravindra,Kolkata Knight Riders,KKR,AR,1
+Ramandeep Singh,Kolkata Knight Riders,KKR,AR,0
+Vaibhav Arora,Kolkata Knight Riders,KKR,BOWL,0
+Matheesha Pathirana,Kolkata Knight Riders,KKR,BOWL,1
+Kartik Tyagi,Kolkata Knight Riders,KKR,BOWL,0
+Prashant Solanki,Kolkata Knight Riders,KKR,BOWL,0
+Akash Deep,Kolkata Knight Riders,KKR,BOWL,0
+Harshit Rana,Kolkata Knight Riders,KKR,BOWL,0
+Umran Malik,Kolkata Knight Riders,KKR,BOWL,0
+Sunil Narine,Kolkata Knight Riders,KKR,BOWL,1
+Varun Chakaravarthy,Kolkata Knight Riders,KKR,BOWL,0
+Rishabh Pant,Lucknow Super Giants,LSG,WK,0
+Aiden Markram,Lucknow Super Giants,LSG,BAT,1
+Himmat Singh,Lucknow Super Giants,LSG,BAT,0
+Matthew Breetzke,Lucknow Super Giants,LSG,BAT,1
+Mukul Choudhary,Lucknow Super Giants,LSG,WK,0
+Akshat Raghuwanshi,Lucknow Super Giants,LSG,BAT,0
+Josh Inglis,Lucknow Super Giants,LSG,WK,1
+Nicholas Pooran,Lucknow Super Giants,LSG,WK,1
+Mitchell Marsh,Lucknow Super Giants,LSG,AR,1
+Abdul Samad,Lucknow Super Giants,LSG,AR,0
+Shahbaz Ahamad,Lucknow Super Giants,LSG,AR,0
+Arshin Kulkarni,Lucknow Super Giants,LSG,AR,0
+Wanindu Hasaranga,Lucknow Super Giants,LSG,AR,1
+Ayush Badoni,Lucknow Super Giants,LSG,AR,0
+Mohammad Shami,Lucknow Super Giants,LSG,BOWL,0
+Avesh Khan,Lucknow Super Giants,LSG,BOWL,0
+M Siddharth,Lucknow Super Giants,LSG,BOWL,0
+Digvesh Singh,Lucknow Super Giants,LSG,BOWL,0
+Akash Singh,Lucknow Super Giants,LSG,BOWL,0
+Prince Yadav,Lucknow Super Giants,LSG,BOWL,0
+Arjun Tendulkar,Lucknow Super Giants,LSG,BOWL,0
+Anrich Nortje,Lucknow Super Giants,LSG,BOWL,1
+Naman Tiwari,Lucknow Super Giants,LSG,BOWL,0
+Mayank Yadav,Lucknow Super Giants,LSG,BOWL,0
+Mohsin Khan,Lucknow Super Giants,LSG,BOWL,0
+Shreyas Iyer,Punjab Kings,PBKS,BAT,0
+Nehal Wadhera,Punjab Kings,PBKS,BAT,0
+Vishnu Vinod,Punjab Kings,PBKS,WK,0
+Harnoor Pannu,Punjab Kings,PBKS,BAT,0
+Pyla Avinash,Punjab Kings,PBKS,BAT,0
+Prabhsimran Singh,Punjab Kings,PBKS,WK,0
+Shashank Singh,Punjab Kings,PBKS,BAT,0
+Marcus Stoinis,Punjab Kings,PBKS,AR,1
+Harpreet Brar,Punjab Kings,PBKS,AR,0
+Marco Jansen,Punjab Kings,PBKS,AR,1
+Azmatullah Omarzai,Punjab Kings,PBKS,AR,1
+Priyansh Arya,Punjab Kings,PBKS,AR,0
+Musheer Khan,Punjab Kings,PBKS,AR,0
+Suryansh Shedge,Punjab Kings,PBKS,AR,0
+Mitch Owen,Punjab Kings,PBKS,BAT,1
+Cooper Connolly,Punjab Kings,PBKS,AR,1
+Ben Dwarshuis,Punjab Kings,PBKS,AR,1
+Arshdeep Singh,Punjab Kings,PBKS,BOWL,0
+Yuzvendra Chahal,Punjab Kings,PBKS,BOWL,0
+Vyshak Vijaykumar,Punjab Kings,PBKS,BOWL,0
+Yash Thakur,Punjab Kings,PBKS,BOWL,0
+Xavier Bartlett,Punjab Kings,PBKS,BOWL,1
+Pravin Dubey,Punjab Kings,PBKS,BOWL,0
+Vishal Nishad,Punjab Kings,PBKS,BOWL,0
+Lockie Ferguson,Punjab Kings,PBKS,BOWL,1
+Riyan Parag,Rajasthan Royals,RR,BAT,0
+Shubham Dubey,Rajasthan Royals,RR,BAT,0
+Vaibhav Suryavanshi,Rajasthan Royals,RR,BAT,0
+Donovan Ferreira,Rajasthan Royals,RR,WK,1
+Lhuan-dre Pretorius,Rajasthan Royals,RR,BAT,1
+Ravi Singh,Rajasthan Royals,RR,WK,0
+Aman Rao Perala,Rajasthan Royals,RR,BAT,0
+Shimron Hetmyer,Rajasthan Royals,RR,BAT,1
+Yashasvi Jaiswal,Rajasthan Royals,RR,BAT,0
+Dhruv Jurel,Rajasthan Royals,RR,WK,0
+Yudhvir Singh Charak,Rajasthan Royals,RR,AR,0
+Ravindra Jadeja,Rajasthan Royals,RR,AR,0
+Sam Curran,Rajasthan Royals,RR,AR,1
+Jofra Archer,Rajasthan Royals,RR,BOWL,1
+Tushar Deshpande,Rajasthan Royals,RR,BOWL,0
+Kwena Maphaka,Rajasthan Royals,RR,BOWL,1
+Ravi Bishnoi,Rajasthan Royals,RR,BOWL,0
+Sushant Mishra,Rajasthan Royals,RR,BOWL,0
+Yash Raj Punja,Rajasthan Royals,RR,BOWL,0
+Vignesh Puthur,Rajasthan Royals,RR,BOWL,0
+Brijesh Sharma,Rajasthan Royals,RR,BOWL,0
+Adam Milne,Rajasthan Royals,RR,BOWL,1
+Kuldeep Sen,Rajasthan Royals,RR,BOWL,0
+Sandeep Sharma,Rajasthan Royals,RR,BOWL,0
+Nandre Burger,Rajasthan Royals,RR,BOWL,1
+Ishan Kishan,Sunrisers Hyderabad,SRH,WK,0
+Aniket Verma,Sunrisers Hyderabad,SRH,BAT,0
+Smaran Ravichandran,Sunrisers Hyderabad,SRH,BAT,0
+Salil Arora,Sunrisers Hyderabad,SRH,WK,0
+Heinrich Klaasen,Sunrisers Hyderabad,SRH,WK,1
+Travis Head,Sunrisers Hyderabad,SRH,BAT,1
+Harshal Patel,Sunrisers Hyderabad,SRH,AR,0
+Kamindu Mendis,Sunrisers Hyderabad,SRH,AR,1
+Harsh Dubey,Sunrisers Hyderabad,SRH,AR,0
+Brydon Carse,Sunrisers Hyderabad,SRH,AR,1
+Shivang Kumar,Sunrisers Hyderabad,SRH,AR,0
+Krains Fuletra,Sunrisers Hyderabad,SRH,AR,0
+Liam Livingstone,Sunrisers Hyderabad,SRH,AR,1
+Jack Edwards,Sunrisers Hyderabad,SRH,AR,1
+Abhishek Sharma,Sunrisers Hyderabad,SRH,AR,0
+Nitish Kumar Reddy,Sunrisers Hyderabad,SRH,AR,0
+Pat Cummins,Sunrisers Hyderabad,SRH,BOWL,1
+Zeeshan Ansari,Sunrisers Hyderabad,SRH,BOWL,0
+Jaydev Unadkat,Sunrisers Hyderabad,SRH,BOWL,0
+Eshan Malinga,Sunrisers Hyderabad,SRH,BOWL,1
+Sakib Hussain,Sunrisers Hyderabad,SRH,BOWL,0
+Onkar Tarmale,Sunrisers Hyderabad,SRH,BOWL,0
+Amit Kumar,Sunrisers Hyderabad,SRH,BOWL,0
+Praful Hinge,Sunrisers Hyderabad,SRH,BOWL,0
+Shivam Mavi,Sunrisers Hyderabad,SRH,BOWL,0

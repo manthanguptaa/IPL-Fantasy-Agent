@@ -1,0 +1,18 @@
+venue_key,venue_aliases,city,home_team,avg_total_runs,avg_total_sixes,avg_total_wickets,pace_economy,spin_economy,spin_wicket_pct,bat_avg_points,bowl_avg_points,ar_avg_points,batting_friendly,spin_friendly,high_scoring,dew_factor,boundary_size
+chinnaswamy,"M Chinnaswamy Stadium;M Chinnaswamy Stadium, Bengaluru;M.Chinnaswamy Stadium",Bengaluru,Royal Challengers Bengaluru,318,16.0,10.8,8.4,8.1,28,36.0,30.2,40.3,1.0,0.3,1.0,0.7,small
+wankhede,"Wankhede Stadium;Wankhede Stadium, Mumbai",Mumbai,Mumbai Indians,314,14.0,11.2,8.3,7.7,26,38.0,33.7,40.2,0.9,0.2,0.9,0.8,small
+eden_gardens,"Eden Gardens;Eden Gardens, Kolkata",Kolkata,Kolkata Knight Riders,315,14.5,10.6,8.2,7.6,40,34.5,29.0,39.4,0.7,0.7,0.8,0.6,medium
+chepauk,"MA Chidambaram Stadium, Chepauk;MA Chidambaram Stadium, Chepauk, Chennai;MA Chidambaram Stadium",Chennai,Chennai Super Kings,300,11.0,11.3,8.3,7.3,34,37.1,33.6,36.7,0.5,0.8,0.5,0.5,medium
+narendra_modi,"Narendra Modi Stadium, Ahmedabad;Sardar Patel Stadium, Motera",Ahmedabad,Gujarat Titans,341,17.3,11.5,9.3,8.7,30,42.3,34.1,33.2,1.0,0.3,1.0,0.7,large
+uppal,"Rajiv Gandhi International Stadium, Uppal;Rajiv Gandhi International Stadium, Uppal, Hyderabad;Rajiv Gandhi International Stadium",Hyderabad,Sunrisers Hyderabad,305,12.5,10.3,7.9,7.6,25,36.2,31.3,35.4,0.7,0.3,0.6,0.6,medium
+arun_jaitley,"Arun Jaitley Stadium, Delhi;Arun Jaitley Stadium;Feroz Shah Kotla",Delhi,Delhi Capitals,320,14.0,10.6,10.0,9.1,38,40.4,31.5,42.5,0.9,0.6,0.9,0.8,small
+sawai_mansingh,"Sawai Mansingh Stadium;Sawai Mansingh Stadium, Jaipur",Jaipur,Rajasthan Royals,310,11.0,9.7,7.9,7.6,28,34.6,29.4,36.5,0.6,0.3,0.5,0.5,medium
+mohali,"Punjab Cricket Association Stadium, Mohali;Punjab Cricket Association IS Bindra Stadium, Mohali;Punjab Cricket Association IS Bindra Stadium;Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",Mohali,Punjab Kings,298,8.8,10.7,8.2,7.7,26,35.9,32.7,38.0,0.6,0.2,0.5,0.4,large
+ekana,"Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium, Lucknow",Lucknow,Lucknow Super Giants,317,13.3,11.2,9.0,8.0,31,38.3,30.0,36.0,0.7,0.4,0.7,0.7,medium
+mullanpur,"Maharaja Yadavindra Singh International Cricket Stadium, Mullanpur;Maharaja Yadavindra Singh International Cricket Stadium, New Chandigarh",Mullanpur,Punjab Kings,310,12.0,10.5,8.9,7.4,31,35.1,39.2,39.1,0.6,0.5,0.6,0.4,medium
+mca_pune,"Maharashtra Cricket Association Stadium;Maharashtra Cricket Association Stadium, Pune",Pune,,304,12.0,10.5,8.5,7.8,30,36.0,31.0,38.0,0.7,0.3,0.6,0.5,medium
+dy_patil,"Dr DY Patil Sports Academy;Dr DY Patil Sports Academy, Mumbai",Mumbai,,287,12.0,11.8,8.8,8.0,30,36.0,32.0,37.0,0.6,0.3,0.5,0.7,medium
+brabourne,"Brabourne Stadium;Brabourne Stadium, Mumbai",Mumbai,,323,13.4,11.6,8.5,7.9,28,38.9,34.0,39.0,0.8,0.3,0.8,0.7,small
+dharamsala,"Himachal Pradesh Cricket Association Stadium;Himachal Pradesh Cricket Association Stadium, Dharamsala",Dharamsala,,295,10.0,10.5,8.0,7.5,30,36.0,31.0,37.0,0.6,0.3,0.5,0.2,medium
+vizag,"Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium;Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",Visakhapatnam,,300,11.0,10.8,8.2,7.8,28,36.0,31.5,37.0,0.7,0.3,0.6,0.6,medium
+guwahati,"Barsapara Cricket Stadium, Guwahati",Guwahati,,300,11.0,10.5,8.3,7.7,28,36.0,31.0,37.0,0.6,0.3,0.5,0.4,medium

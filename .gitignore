@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Data (too large for git)
+*_json/
+tmp/
+catboost_info/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+.cursor/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.*
+venv/
+.venv/
+
+# Test cache
+.pytest_cache/
+.coverage
+htmlcov/
