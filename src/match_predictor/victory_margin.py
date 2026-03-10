@@ -49,12 +49,31 @@ def build_margin_dataset(match_df: pd.DataFrame, winner_df: pd.DataFrame) -> pd.
         0,
     )
 
+    # Dew/chase interaction features
+    df["dew_x_bat_second"] = df["dew_factor"].fillna(0.5)
+    df["chase_advantage"] = (
+        df["dew_factor"].fillna(0.5) *
+        (1 - df["toss_won_bat_first"])
+    )
+    df["t2_scoring_form"] = (
+        df["t2_rolling_runs_scored_avg_5"].fillna(160) -
+        df["t1_rolling_runs_conceded_avg_5"].fillna(160)
+    )
+    df["t1_scoring_form"] = (
+        df["t1_rolling_runs_scored_avg_5"].fillna(160) -
+        df["t2_rolling_runs_conceded_avg_5"].fillna(160)
+    )
+
     return df
 
 
 MARGIN_FEATURES = WINNER_FEATURES + [
     "avg_total_sixes",
     "spin_friendly",
+    "dew_x_bat_second",
+    "chase_advantage",
+    "t2_scoring_form",
+    "t1_scoring_form",
 ]
 
 

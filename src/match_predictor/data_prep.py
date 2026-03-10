@@ -154,6 +154,18 @@ def build_match_level_data(player_df: pd.DataFrame) -> pd.DataFrame:
     return match_df.sort_values("match_date").reset_index(drop=True)
 
 
+def build_season_avg_scores(match_df: pd.DataFrame) -> pd.DataFrame:
+    """Compute per-season average first-innings score, lagged by 1 season to avoid leakage."""
+    season_avg = (
+        match_df.groupby("season")
+        .agg(season_avg_score=("score_bat_first", "mean"))
+        .reset_index()
+    )
+    season_avg = season_avg.sort_values("season")
+    season_avg["season_avg_score_lag"] = season_avg["season_avg_score"].shift(1)
+    return season_avg[["season", "season_avg_score_lag"]]
+
+
 def build_team_rolling_features(match_df: pd.DataFrame, window: int = 5) -> pd.DataFrame:
     """
     Add rolling team-level features: recent form, avg scores, win rates.

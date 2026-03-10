@@ -17,6 +17,7 @@ from .data_prep import (
     load_venue_profiles,
     build_match_level_data,
     build_team_rolling_features,
+    build_season_avg_scores,
     merge_venue_features,
 )
 from .player_performance import (
@@ -64,6 +65,7 @@ class MatchPredictor:
         match_df = merge_venue_features(match_df, venue_df)
         team_rolling = build_team_rolling_features(match_df)
         player_strength = build_player_strength_features(feature_df)
+        season_avg = build_season_avg_scores(match_df)
 
         self.data = {
             "player_df": player_df,
@@ -72,6 +74,7 @@ class MatchPredictor:
             "match_df": match_df,
             "team_rolling": team_rolling,
             "player_strength": player_strength,
+            "season_avg": season_avg,
         }
         print(f"  {player_df['match_id'].nunique()} matches loaded\n")
 
@@ -90,14 +93,18 @@ class MatchPredictor:
         print("\n" + "=" * 50)
         print("Training Team Score Model")
         print("=" * 50)
-        innings_df = build_innings_dataset(d["match_df"], d["team_rolling"], d["player_strength"])
+        innings_df = build_innings_dataset(
+            d["match_df"], d["team_rolling"], d["player_strength"], d["season_avg"]
+        )
         self.models["team_score"], _ = train_team_score_model(innings_df, self.test_season)
 
         # 3. Match winner
         print("\n" + "=" * 50)
         print("Training Match Winner Model")
         print("=" * 50)
-        winner_df = build_match_winner_dataset(d["match_df"], d["team_rolling"], d["player_strength"])
+        winner_df = build_match_winner_dataset(
+            d["match_df"], d["team_rolling"], d["player_strength"], d["season_avg"]
+        )
         self.models["winner"], _ = train_match_winner_model(winner_df, self.test_season)
 
         # 4. Victory margin
@@ -108,13 +115,9 @@ class MatchPredictor:
         self.models["margin"], _ = train_margin_model(margin_df, self.test_season)
 
     def predict_match(self, match_id: int) -> dict:
-        """
-        Generate a full prediction for a specific match.
-        Returns a dict with all predictions.
-        """
+        """Generate a full prediction for a specific match."""
         d = self.data
 
-        # Get match info
         match_row = d["match_df"][d["match_df"]["match_id"] == match_id]
         if match_row.empty:
             raise ValueError(f"Match {match_id} not found")
@@ -133,7 +136,9 @@ class MatchPredictor:
             )
 
         # Team score predictions
-        innings_df = build_innings_dataset(d["match_df"], d["team_rolling"], d["player_strength"])
+        innings_df = build_innings_dataset(
+            d["match_df"], d["team_rolling"], d["player_strength"], d["season_avg"]
+        )
         innings = innings_df[innings_df["match_id"] == match_id].copy()
         if not innings.empty:
             innings["pred_score"] = np.maximum(
@@ -141,7 +146,9 @@ class MatchPredictor:
             )
 
         # Match winner prediction
-        winner_df = build_match_winner_dataset(d["match_df"], d["team_rolling"], d["player_strength"])
+        winner_df = build_match_winner_dataset(
+            d["match_df"], d["team_rolling"], d["player_strength"], d["season_avg"]
+        )
         winner_row = winner_df[winner_df["match_id"] == match_id].copy()
         if not winner_row.empty:
             X = winner_row[WINNER_FEATURES].fillna(0)
@@ -166,7 +173,6 @@ class MatchPredictor:
             "actual_winner": match_row["winner"],
             "actual_score_first": match_row["score_bat_first"],
             "actual_score_second": match_row["score_bat_second"],
-            # Predictions
             "win_prob_bat_first": win_prob,
             "predicted_winner": match_row["team_bat_first"] if win_prob > 0.5 else match_row["team_bat_second"],
             "predicted_margin": pred_margin,
@@ -183,7 +189,6 @@ class MatchPredictor:
         print(f"  Date: {pred['match_date']}")
         print("=" * 70)
 
-        # Match winner
         prob = pred["win_prob_bat_first"]
         t1, t2 = pred["team_bat_first"], pred["team_bat_second"]
         print(f"\n  WINNER PREDICTION:")
@@ -192,7 +197,6 @@ class MatchPredictor:
         print(f"    => Predicted winner: {pred['predicted_winner']}")
         print(f"    => Actual winner:    {pred['actual_winner']}")
 
-        # Victory margin
         margin = pred["predicted_margin"]
         if margin > 0:
             print(f"\n  MARGIN: {t1} to win by ~{abs(margin):.0f} runs")
@@ -204,7 +208,6 @@ class MatchPredictor:
         else:
             print(f"  Actual: {t2} won (deficit: {abs(actual_margin)} runs)")
 
-        # Team scores
         innings = pred["innings_predictions"]
         if not innings.empty:
             print(f"\n  TEAM SCORE PREDICTIONS:")
@@ -214,7 +217,6 @@ class MatchPredictor:
                     f"Predicted {inn['pred_score']:.0f} | Actual {int(inn['runs_scored'])}"
                 )
 
-        # Player predictions
         players = pred["player_predictions"]
         if not players.empty:
             for team in [t1, t2]:
@@ -224,7 +226,6 @@ class MatchPredictor:
                 print(f"\n  PLAYER PREDICTIONS — {team}:")
                 print(f"    {'Player':<25s}  Pred Runs  Actual  |  Pred Wkts  Actual")
                 print("    " + "-" * 65)
-                # Sort by predicted runs
                 tp = tp.sort_values("pred_runs", ascending=False)
                 for _, p in tp.head(11).iterrows():
                     print(
@@ -240,7 +241,6 @@ def main():
     predictor.load_data()
     predictor.train_all()
 
-    # Print forecasts for last 5 test matches
     match_df = predictor.data["match_df"]
     test_matches = match_df[match_df["season"].astype(str) == "2025"]["match_id"].values
     print("\n\n" + "#" * 70)

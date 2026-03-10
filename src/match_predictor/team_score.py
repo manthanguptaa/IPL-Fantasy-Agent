@@ -15,6 +15,7 @@ from .data_prep import (
     load_venue_profiles,
     build_match_level_data,
     build_team_rolling_features,
+    build_season_avg_scores,
     merge_venue_features,
 )
 
@@ -51,6 +52,7 @@ def build_innings_dataset(
     match_df: pd.DataFrame,
     team_rolling: pd.DataFrame,
     player_strength: pd.DataFrame | None = None,
+    season_avg: pd.DataFrame | None = None,
 ) -> pd.DataFrame:
     """
     Build a dataset where each row is one team's innings in a match.
@@ -129,6 +131,17 @@ def build_innings_dataset(
         innings_df["rolling_run_diff_avg_5"].fillna(0) - innings_df["opp_rolling_run_diff_avg_5"].fillna(0)
     )
 
+    # Season scoring inflation (lagged by 1 season)
+    if season_avg is not None:
+        innings_df = innings_df.merge(season_avg, on="season", how="left")
+
+    # First innings score for 2nd innings prediction
+    first_inn_scores = match_df.set_index("match_id")["score_bat_first"].to_dict()
+    innings_df["first_innings_score"] = innings_df.apply(
+        lambda r: first_inn_scores.get(r["match_id"], 0) if r["innings"] == 2 else 0,
+        axis=1,
+    )
+
     return innings_df
 
 
@@ -165,6 +178,9 @@ SCORE_FEATURES = [
     "opp_team_sum_bowling_pts",
     "opp_team_avg_economy",
     "opp_team_avg_points",
+    # Improvements: season inflation + first innings score
+    "season_avg_score_lag",
+    "first_innings_score",
 ]
 
 
@@ -181,11 +197,11 @@ def train_team_score_model(innings_df: pd.DataFrame, test_season: str = "2025"):
     y_test = test["runs_scored"]
 
     model = GradientBoostingRegressor(
-        n_estimators=400,
+        n_estimators=500,
         max_depth=4,
-        learning_rate=0.05,
+        learning_rate=0.03,
         subsample=0.8,
-        min_samples_leaf=15,
+        min_samples_leaf=10,
         random_state=42,
     )
     model.fit(X_train, y_train)
@@ -246,8 +262,9 @@ if __name__ == "__main__":
     match_df = merge_venue_features(match_df, venue_df)
     team_rolling = build_team_rolling_features(match_df)
     player_strength = build_player_strength_features(feature_df)
+    season_avg = build_season_avg_scores(match_df)
 
-    innings_df = build_innings_dataset(match_df, team_rolling, player_strength)
+    innings_df = build_innings_dataset(match_df, team_rolling, player_strength, season_avg)
     print(f"Built {len(innings_df)} innings rows\n")
 
     model, results = train_team_score_model(innings_df)

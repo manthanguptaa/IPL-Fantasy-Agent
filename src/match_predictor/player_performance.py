@@ -79,11 +79,11 @@ def train_runs_model(df: pd.DataFrame, test_season: str = "2025"):
     y_test = test["runs"]
 
     model = GradientBoostingRegressor(
-        n_estimators=300,
+        n_estimators=500,
         max_depth=5,
-        learning_rate=0.05,
+        learning_rate=0.03,
         subsample=0.8,
-        min_samples_leaf=20,
+        min_samples_leaf=15,
         random_state=42,
     )
     model.fit(X_train, y_train)
@@ -121,11 +121,11 @@ def train_wickets_model(df: pd.DataFrame, test_season: str = "2025"):
     y_test = test["wickets"]
 
     model = GradientBoostingRegressor(
-        n_estimators=300,
-        max_depth=4,
-        learning_rate=0.05,
+        n_estimators=400,
+        max_depth=3,
+        learning_rate=0.03,
         subsample=0.8,
-        min_samples_leaf=20,
+        min_samples_leaf=15,
         random_state=42,
     )
     model.fit(X_train, y_train)

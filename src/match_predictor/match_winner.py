@@ -15,6 +15,7 @@ from .data_prep import (
     load_venue_profiles,
     build_match_level_data,
     build_team_rolling_features,
+    build_season_avg_scores,
     merge_venue_features,
 )
 from .team_score import build_player_strength_features
@@ -24,6 +25,7 @@ def build_match_winner_dataset(
     match_df: pd.DataFrame,
     team_rolling: pd.DataFrame,
     player_strength: pd.DataFrame | None = None,
+    season_avg: pd.DataFrame | None = None,
 ) -> pd.DataFrame:
     """
     Build a dataset where each row is a match.
@@ -90,6 +92,10 @@ def build_match_winner_dataset(
     # Toss features
     df["toss_won_bat_first"] = (df["toss_winner"] == df["team_bat_first"]).astype(int)
 
+    # Season scoring inflation
+    if season_avg is not None:
+        df = df.merge(season_avg, on="season", how="left")
+
     return df
 
 
@@ -117,6 +123,8 @@ WINNER_FEATURES = [
     "overall_strength_diff",
     # Toss
     "toss_won_bat_first",
+    # Season inflation
+    "season_avg_score_lag",
 ]
 
 
@@ -212,7 +220,8 @@ if __name__ == "__main__":
     team_rolling = build_team_rolling_features(match_df)
     player_strength = build_player_strength_features(feature_df)
 
-    df = build_match_winner_dataset(match_df, team_rolling, player_strength)
+    season_avg = build_season_avg_scores(match_df)
+    df = build_match_winner_dataset(match_df, team_rolling, player_strength, season_avg)
     print(f"Built {len(df)} match rows\n")
 
     model, results = train_match_winner_model(df)
