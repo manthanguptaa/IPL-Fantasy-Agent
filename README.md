@@ -42,16 +42,26 @@ Backtested on 200 IPL matches:
 
 ## Quick Start
 
+### Prerequisites
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) (fast Python package manager):
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
 ### Install
 
 ```bash
-pip install -e ".[dev]"
+git clone https://github.com/manthanguptaa/IPL-Fantasy-Agent.git
+cd IPL-Fantasy-Agent
+uv sync
 ```
 
 ### Generate a team for an IPL 2026 match
 
 ```bash
-python scripts/generate_match_team.py \
+uv run python scripts/generate_match_team.py \
     --team1 CSK --team2 MI \
     --venue "Wankhede Stadium" \
     --won-toss MI --toss-decision bowl
@@ -69,19 +79,19 @@ Options:
 
 ```bash
 # Backtest the optimizer on historical matches
-python scripts/run_backtest.py --mode optimized --n-matches 50
+uv run python scripts/run_backtest.py --mode optimized --n-matches 50
 
 # Backtest the reranking pipeline
-python scripts/run_reranking_backtest.py --n-matches 50
+uv run python scripts/run_reranking_backtest.py --n-matches 50
 
 # Backtest the RL agent
-python scripts/run_live_rl.py --n-matches 200 --alpha 0.8
+uv run python scripts/run_live_rl.py --n-matches 200 --alpha 0.8
 ```
 
 ### Run tests
 
 ```bash
-pytest tests/ -v
+uv run pytest tests/ -v
 ```
 
 ## Data Setup

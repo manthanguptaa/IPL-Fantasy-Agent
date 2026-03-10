@@ -28,6 +28,9 @@ Thumbs.db
 venv/
 .venv/
 
+# uv
+.python-version
+
 # Test cache
 .pytest_cache/
 .coverage
