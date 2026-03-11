@@ -162,6 +162,15 @@ src/ipl_fantasy/
     normalize_cricket_json.py # Raw data normalization
     player_roles.py           # Player role inference
 
+src/match_predictor/
+    predict_match.py          # Unified prediction pipeline (all 4 models)
+    player_performance.py     # Player runs & wickets models
+    team_score.py             # Team innings total model
+    match_winner.py           # Match winner classifier
+    victory_margin.py         # Victory margin regressor
+    backtest.py               # IPL 2025 backtest harness
+    data_prep.py              # Match-level data aggregation & features
+
 scripts/
     generate_match_team.py    # Live match team generation pipeline
     run_backtest.py           # Historical backtest runner
@@ -176,7 +185,28 @@ data/
     player_roles.csv          # Inferred player roles
 
 tests/                        # 40 unit tests
-docs/                         # Design documents
+```
+
+## Match Prediction Models
+
+A separate prediction pipeline (`src/match_predictor/`) forecasts match outcomes using 4 GradientBoosting models trained on historical IPL data (2017–2024) and backtested on IPL 2025 (74 matches).
+
+| Model | Task | Algorithm | Key Features | IPL 2025 Performance |
+|-------|------|-----------|--------------|---------------------|
+| Player Runs | Predict individual batting runs | GBRegressor (500 trees, depth 5) | Rolling batting averages, strike rate, venue/opponent history | MAE 13.59 |
+| Player Wickets | Predict individual wickets taken | GBRegressor (400 trees, depth 3) | Rolling bowling averages, economy rate, venue/opponent history | MAE 0.58 |
+| Team Score | Predict team innings total | GBRegressor (500 trees, depth 4) | Venue profile, team rolling form, player strength aggregates, season inflation, first innings score | MAE 27.26 |
+| Match Winner | Predict which team wins | GBClassifier (300 trees, depth 3) | Team form differentials, player strength comparisons, toss, venue | 61.4% accuracy |
+| Victory Margin | Predict signed run margin | GBRegressor (300 trees, depth 3) | All winner features + dew/chase interaction, scoring form differentials | Direction accuracy 61.4% |
+
+### Running the match predictor
+
+```bash
+# Run all 4 models and print match forecasts
+uv run python -m src.match_predictor.predict_match
+
+# Run full backtest on IPL 2025
+uv run python -m src.match_predictor.backtest
 ```
 
 ## Architecture
@@ -188,8 +218,6 @@ The system implements a 5-phase roadmap:
 3. **Reward Modeling** — blended reward signal combining score, regret, and captain quality for RL training
 4. **Contextual Bandit** — LinUCB agent with 12-dimensional match context learns which optimization strategy to deploy per match
 5. **LLM Sidecar** — (planned) pitch report extraction and team explanation generation
-
-See [implementation-direction.md](implementation-direction.md) for the full design rationale.
 
 ## Key Design Decisions
 
@@ -219,8 +247,6 @@ See [implementation-direction.md](implementation-direction.md) for the full desi
 | Run out (direct) | +12 |
 | Captain | 2x points |
 | Vice-Captain | 1.5x points |
-
-See [problem-statement.md](problem-statement.md) for the full specification.
 
 ## License
 
