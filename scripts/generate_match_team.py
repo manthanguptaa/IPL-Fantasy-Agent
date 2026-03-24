@@ -25,6 +25,7 @@ sys.path.insert(0, str(project_root))
 from src.ipl_fantasy.quantile_model import QuantileModelEnsemble, OPTIMAL_FEATURES
 from src.ipl_fantasy.enhanced_prediction import create_enhanced_predict_fn, OPTIMAL_CONFIG
 from src.ipl_fantasy.improved_optimizer import ImprovedDream11Optimizer, OptimizationConfig
+from src.ipl_fantasy.residual_adapter import ResidualAdapter
 from src.ipl_fantasy.team_optimizer import Dream11Constraints, Player
 from src.ipl_fantasy.team_reranker import (
     RerankingConfig,
@@ -576,6 +577,8 @@ def main():
     parser.add_argument("--top-k", type=int, default=3, help="Show top K reranked teams")
     parser.add_argument("--no-rerank", action="store_true", help="Skip reranking, use single optimizer")
     parser.add_argument("--exclude", nargs="*", default=[], help="Players to exclude (e.g. injured)")
+    parser.add_argument("--no-adapt", action="store_true", help="Skip residual adaptation (test-time training)")
+    parser.add_argument("--adapter-state", default="tmp/residual_adapter.json", help="Residual adapter state file")
     args = parser.parse_args()
 
     team1 = resolve_team(args.team1)
@@ -641,6 +644,38 @@ def main():
     bowling_styles = dict(zip(match_df["player_name"], match_df.get("bowling_style", "")))
     players = apply_venue_adjustments(players, venue_profile, bowling_styles)
     print(f"  {len(players)} players predicted{' (venue-adjusted)' if venue_profile else ''}")
+
+    # --- Residual adaptation (test-time training) ---
+    adapter = ResidualAdapter.load(args.adapter_state)
+    if not args.no_adapt and adapter.total_matches > 0:
+        print(f"\nApplying residual adapter ({adapter.total_matches} matches observed)...")
+        players = adapter.adjust(players)
+        biases = adapter.get_role_biases()
+        print(f"  Role biases: " + ", ".join(f"{r}:{b:+.1f}" for r, b in biases.items()))
+        top_corr = adapter.get_top_corrections(5)
+        if top_corr:
+            in_pool = {p.name for p in players}
+            relevant = [c for c in top_corr if c["player"] in in_pool]
+            if relevant:
+                print(f"  Top corrections in pool: " + ", ".join(
+                    f"{c['player']}({c['correction']:+.1f})" for c in relevant[:5]
+                ))
+    elif not args.no_adapt:
+        print(f"\nResidual adapter: no matches observed yet (will activate after first recorded result)")
+
+    # Save predictions for post-match recording
+    import json as _json
+    pred_save = {}
+    for p in players:
+        pred_save[p.name] = {
+            "predicted": round(p.predicted_points, 2),
+            "role": p.role,
+            "team": p.team,
+        }
+    pred_save_path = Path(args.adapter_state).parent / "last_predictions.json"
+    pred_save_path.parent.mkdir(parents=True, exist_ok=True)
+    pred_save_path.write_text(_json.dumps(pred_save, indent=2))
+    print(f"  Predictions saved to {pred_save_path} (for post-match recording)")
 
     players_sorted = sorted(players, key=lambda p: -p.predicted_points)
     print(f"\n  Top 15 by predicted points:")
