@@ -188,14 +188,15 @@ SQUAD_TO_HISTORICAL = {
     "Krunal Pandya": "KH Pandya",
     "Tim David": "Tim David",
     "Romario Shepherd": "R Shepherd",
-    "Jacob Bethell": "J Bethell",
+    "Jacob Bethell": "JG Bethell",
     "Venkatesh Iyer": "VR Iyer",
     "Josh Hazlewood": "JR Hazlewood",
     "Bhuvneshwar Kumar": "B Kumar",
     "Nuwan Thushara": "N Thushara",
-    "Yash Dayal": "YS Dayal",
+    "Yash Dayal": "Yash Dayal",
     "Suyash Sharma": "Suyash Sharma",
-    "Swapnil Singh": "SS Singh",
+    "Rasikh Dar": "Rasikh Salam",
+    "Swapnil Singh": "Swapnil Singh",
 
     # DC
     "KL Rahul": "KL Rahul",
