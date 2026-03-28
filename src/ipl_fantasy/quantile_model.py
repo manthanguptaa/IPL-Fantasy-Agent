@@ -18,7 +18,7 @@ from typing import Any
 import joblib
 import numpy as np
 import pandas as pd
-from catboost import CatBoostRegressor
+from catboost import CatBoostRegressor, Pool
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 
@@ -221,11 +221,12 @@ class QuantileModelEnsemble:
         if not self.models or self.mean_model is None:
             raise ValueError("Models not trained. Call fit() first.")
 
-        X, _ = self._prepare_features(df)
+        X, cat_cols = self._prepare_features(df)
+        pool = Pool(X, cat_features=cat_cols)
 
         # Get predictions from all models
-        mean_pred = self.mean_model.predict(X)
-        quantile_preds = {q: model.predict(X) for q, model in self.models.items()}
+        mean_pred = self.mean_model.predict(pool)
+        quantile_preds = {q: model.predict(pool) for q, model in self.models.items()}
 
         predictions = []
         for i, (_, row) in enumerate(df.iterrows()):
