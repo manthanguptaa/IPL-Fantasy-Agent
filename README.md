@@ -1,6 +1,6 @@
 # IPL Fantasy Agent
 
-An ML-powered system for generating optimal Dream11 fantasy cricket teams for IPL matches. Combines probabilistic player forecasting, Monte Carlo simulation, constrained optimization, and reinforcement learning to select the best XI with Captain and Vice-Captain.
+An ML-powered system for generating optimal Dream11 fantasy cricket teams for IPL matches. Combines probabilistic player forecasting, Monte Carlo simulation, constrained optimization, and test-time training to select the best XI with Captain and Vice-Captain.
 
 ## How It Works
 
@@ -15,7 +15,7 @@ Historical Match Data
         |
    Candidate Reranking (8 diverse teams scored on expected, ceiling, floor, captain leverage)
         |
-   Contextual Bandit (LinUCB learns which strategy works for each match context)
+   Test-Time Training (residual adapter corrects biases from observed match outcomes)
         |
    Output: 11 players + Captain + Vice-Captain
 ```
@@ -74,6 +74,25 @@ Options:
 - `--exclude "Player Name"` — remove injured/unavailable players
 - `--top-k 5` — show top 5 alternative teams
 - `--candidates 12` — generate more candidate teams for reranking
+- `--no-adapt` — skip residual adaptation (test-time training)
+
+### Record match results (for test-time training)
+
+After each match, record actual fantasy points to improve future predictions:
+
+```bash
+# From a CSV file (player_name,actual_points)
+uv run python scripts/record_match_result.py \
+    --match-id "ipl2026_01" \
+    --match-date "2026-03-28" \
+    --actuals data/match_results/ipl2026_01.csv
+
+# Or inline
+uv run python scripts/record_match_result.py \
+    --match-id "ipl2026_01" \
+    --match-date "2026-03-28" \
+    --inline "Virat Kohli:45,Jasprit Bumrah:62,..."
+```
 
 ### Run backtests
 
@@ -83,9 +102,6 @@ uv run python scripts/run_backtest.py --mode optimized --n-matches 50
 
 # Backtest the reranking pipeline
 uv run python scripts/run_reranking_backtest.py --n-matches 50
-
-# Backtest the RL agent
-uv run python scripts/run_live_rl.py --n-matches 200 --alpha 0.8
 ```
 
 ### Run tests
@@ -128,34 +144,23 @@ python scripts/update_features_with_toss.py
 ### 3. Train models
 
 ```bash
-# Train baseline CatBoost model
-python scripts/train_baseline_model.py
-
-# Train quantile ensemble (q10, q50, q90)
-python -c "
-from src.ipl_fantasy.quantile_model import QuantileModelEnsemble
-import pandas as pd
-df = pd.read_csv('tmp/full_player_match_features_v4.csv', low_memory=False)
-train = df[df['match_date'] < '2024-01-01']
-val = df[df['match_date'] >= '2024-01-01']
-ensemble = QuantileModelEnsemble()
-ensemble.fit(train, val)
-ensemble.save('tmp/quantile_models')
-"
+# Train quantile ensemble (q10, q25, q50, q75, q90)
+uv run python -m src.ipl_fantasy.quantile_model \
+    tmp/full_player_match_features_v4.csv \
+    tmp/quantile_models
 ```
 
 ## Project Structure
 
 ```
 src/ipl_fantasy/
-    quantile_model.py         # CatBoost quantile ensemble (q10/q50/q90)
+    quantile_model.py         # CatBoost quantile ensemble (q10/q25/q50/q75/q90)
     enhanced_prediction.py    # Role-specific ceiling weighting
     team_optimizer.py         # Dream11 constraint optimizer (PuLP)
     improved_optimizer.py     # Multi-objective ceiling-weighted optimizer
     simulation.py             # Monte Carlo simulation engine
     team_reranker.py          # Candidate generation + simulation reranking
-    rl_policy.py              # LinUCB contextual bandit
-    reward_model.py           # RL reward computation
+    residual_adapter.py       # Test-time training via residual correction
     build_features.py         # 100+ engineered features
     credit_estimation.py      # Dream11 credit estimation from history
     backtesting.py            # Oracle regret evaluation
@@ -173,9 +178,9 @@ src/match_predictor/
 
 scripts/
     generate_match_team.py    # Live match team generation pipeline
+    record_match_result.py    # Post-match result recording for test-time training
     run_backtest.py           # Historical backtest runner
     run_reranking_backtest.py # Reranking pipeline backtest
-    run_live_rl.py            # RL agent training loop
     train_baseline_model.py   # Model training script
     analyze_breakouts.py      # Breakout performance analysis
 
@@ -184,8 +189,17 @@ data/
     venue_profiles.csv        # Venue pitch characteristics
     player_roles.csv          # Inferred player roles
 
-tests/                        # 40 unit tests
+tests/                        # 57 unit tests
 ```
+
+## Architecture
+
+The system has four layers:
+
+1. **Probabilistic Forecasting** — CatBoost quantile models predict floor/expected/ceiling fantasy points per player using 26 optimal features including role-stratified opponent stats
+2. **Candidate Team Reranking** — generates 8 diverse teams via varied optimizer configs, simulates each under Monte Carlo, reranks using composite metric (expected + ceiling + floor + captain leverage + Sharpe)
+3. **Constrained Optimization** — PuLP linear programming solver selects the best 11 under Dream11 constraints (100 credits, role bounds, max 7 per team, max 4 overseas)
+4. **Test-Time Training** — residual adapter observes (predicted, actual) pairs after each match and learns systematic biases the offline model misses, progressively enabling per-player EMA corrections, per-role bias, and contextual ridge regression
 
 ## Match Prediction Models
 
@@ -209,21 +223,11 @@ uv run python -m src.match_predictor.predict_match
 uv run python -m src.match_predictor.backtest
 ```
 
-## Architecture
-
-The system implements a 5-phase roadmap:
-
-1. **Probabilistic Forecasting** — CatBoost quantile models predict floor/expected/ceiling fantasy points per player using 23 optimal features
-2. **Candidate Team Reranking** — generates 8 diverse teams via varied optimizer configs, simulates each under Monte Carlo, reranks using composite metric (expected + ceiling + floor + captain leverage + Sharpe)
-3. **Reward Modeling** — blended reward signal combining score, regret, and captain quality for RL training
-4. **Contextual Bandit** — LinUCB agent with 12-dimensional match context learns which optimization strategy to deploy per match
-5. **LLM Sidecar** — (planned) pitch report extraction and team explanation generation
-
 ## Key Design Decisions
 
 - **Why quantile regression?** Fantasy cricket is high-variance. Knowing a player's ceiling matters as much as their expected score, especially for captaincy decisions.
 - **Why constrained optimization over heuristics?** Dream11 has hard constraints (11 players, 100 credits, role bounds, max 7 per team). PuLP guarantees optimal solutions under these constraints.
-- **Why LinUCB over deep RL?** With only ~74 matches per season and 8 strategy arms, LinUCB converges faster than neural approaches and provides interpretable arm selection.
+- **Why test-time training?** The offline CatBoost model can't capture in-season shifts like new batting positions, changed team roles, or venue/condition drift. The residual adapter corrects for these biases using just 1-15 observed matches.
 - **Why estimated credits?** Dream11 credit prices aren't publicly available historically. The credit estimator uses performance tiers and role bonuses as a proxy.
 
 ## Dream11 Scoring Rules
